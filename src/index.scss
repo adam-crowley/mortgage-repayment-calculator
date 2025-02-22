@@ -2,6 +2,7 @@
   /* typography */
   --medium: 500;
   --bold: 700;
+
   /* colors */
   --White: hsl(0, 0%, 100%);
   --Black: hsl(0, 0%, 0%);
@@ -13,17 +14,15 @@
   --Slate-700: hsl(200, 24%, 40%);
   --Slate-900: hsl(202, 55%, 16%);
 }
-
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
-
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Plus Jakarta Sans", serif;
+  font-family: 'Plus Jakarta Sans', serif;
   font-optical-sizing: auto;
   font-weight: var(--medium);
   font-style: normal;
@@ -34,11 +33,9 @@ body {
   height: 100vh;
   margin: 0;
 }
-
 #root {
   width: 100%;
 }
-
 h1,
 h2,
 h3,
@@ -48,12 +45,10 @@ h6 {
   font-weight: var(--bold);
   margin: 0;
 }
-
 p {
   font-weight: var(--medium);
   margin: 0;
 }
-
 ul {
   padding-left: 0;
   margin: 0;
@@ -66,14 +61,10 @@ ul {
   width: 100%;
   margin: 0 auto;
   padding: 1.5rem 1.5rem;
-}
-@media (min-width: 768px) {
-  .container {
+  @media (min-width: 768px) {
     padding: 3rem 2.5rem;
   }
-}
-@media (min-width: 1400px) {
-  .container {
+  @media (min-width: 1400px) {
     width: 80rem;
     padding: 5.5rem 2rem;
   }
@@ -84,9 +75,7 @@ ul {
   flex-direction: column;
   justify-content: space-between;
   margin-bottom: 1.5rem;
-}
-@media (min-width: 992px) {
-  .main {
+  @media (min-width: 992px) {
     flex-direction: row;
     margin-bottom: 3rem;
   }
@@ -98,14 +87,10 @@ ul {
   padding-bottom: 1rem;
   text-align: center;
 }
-
 .footer p {
   font-size: 0.75rem;
   margin: 0;
 }
-
 .footer a {
   color: var(--Slate-900);
 }
-
-/*# sourceMappingURL=index.css.map */
