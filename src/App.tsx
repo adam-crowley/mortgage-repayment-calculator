@@ -2,9 +2,9 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import Footer from './components/Footer'
 
 type Inputs = {
-  mortgageAmount: number
-  mortgageTerm: number
-  interestRate: number
+  mortgageAmount: string | number
+  mortgageTerm: string | number
+  interestRate: string | number
   mortgageType: 'repayment' | 'interestOnly'
 }
 
@@ -16,6 +16,11 @@ function App() {
     formState: { errors },
   } = useForm<Inputs>()
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+
+  const validateNumber = (value: string | number) => {
+    const num = typeof value === 'string' ? parseFloat(value) : value
+    return !isNaN(num) && isFinite(num)
+  }
 
   console.log(watch('mortgageAmount')) // watch input value by passing the name of it
   return (
@@ -37,35 +42,117 @@ function App() {
                 <input
                   type="text"
                   id="mortgageAmount"
-                  {...register('mortgageAmount', { required: true })}
+                  {...register('mortgageAmount', {
+                    required: 'This field is required',
+                    validate: {
+                      isNumber: (value) =>
+                        validateNumber(value) || 'Please enter a valid number',
+                      isPositive: (value) => {
+                        const num =
+                          typeof value === 'string' ? parseFloat(value) : value
+                        return (
+                          (validateNumber(value) && num > 0) ||
+                          'Amount must be greater than 0'
+                        )
+                      },
+                    },
+                  })}
                 />
                 <span>£</span>
+                {errors.mortgageAmount && (
+                  <div className="calculator__err">
+                    {errors.mortgageAmount.message}
+                  </div>
+                )}
               </div>
-              {errors.mortgageAmount && <span>This field is required</span>}
+
               <div className="calculator__2-col">
                 <div className="calculator__col">
                   <label htmlFor="mortgageTerm">Mortgage Term</label>
                   <div className="calculator__inputgroup calculator__inputgroup--mortgageTerm">
-                    <span>years</span>
                     <input
                       type="text"
                       id="mortgageTerm"
-                      {...register('mortgageTerm', { required: true })}
+                      {...register('mortgageTerm', {
+                        required: 'This field is required',
+                        validate: {
+                          isNumber: (value) =>
+                            validateNumber(value) ||
+                            'Please enter a valid number',
+                          isPositive: (value) => {
+                            const num =
+                              typeof value === 'string'
+                                ? parseFloat(value)
+                                : value
+                            return (
+                              (validateNumber(value) && num > 0) ||
+                              'Term must be greater than 0'
+                            )
+                          },
+                          isWhole: (value) => {
+                            const num =
+                              typeof value === 'string'
+                                ? parseFloat(value)
+                                : value
+                            return (
+                              (validateNumber(value) &&
+                                Number.isInteger(num)) ||
+                              'Please enter a whole number'
+                            )
+                          },
+                        },
+                      })}
                     />
+                    <span>years</span>
+                    {errors.mortgageTerm && (
+                      <div className="calculator__err">
+                        {errors.mortgageTerm.message}
+                      </div>
+                    )}
                   </div>
-                  {errors.mortgageTerm && <span>This field is required</span>}
                 </div>
                 <div className="calculator__col">
                   <label htmlFor="interestRate">Interest Rate</label>
                   <div className="calculator__inputgroup calculator__inputgroup--interestRate">
-                    <span>%</span>
                     <input
                       type="text"
                       id="interestRate"
-                      {...register('interestRate', { required: true })}
+                      {...register('interestRate', {
+                        required: 'This field is required',
+                        validate: {
+                          isNumber: (value) =>
+                            validateNumber(value) ||
+                            'Please enter a valid number',
+                          isPositive: (value) => {
+                            const num =
+                              typeof value === 'string'
+                                ? parseFloat(value)
+                                : value
+                            return (
+                              (validateNumber(value) && num >= 0) ||
+                              'Rate cannot be negative'
+                            )
+                          },
+                          isReasonable: (value) => {
+                            const num =
+                              typeof value === 'string'
+                                ? parseFloat(value)
+                                : value
+                            return (
+                              (validateNumber(value) && num <= 100) ||
+                              'Rate cannot exceed 100%'
+                            )
+                          },
+                        },
+                      })}
                     />
+                    <span>%</span>
+                    {errors.interestRate && (
+                      <div className="calculator__err">
+                        {errors.interestRate.message}
+                      </div>
+                    )}
                   </div>
-                  {errors.interestRate && <span>This field is required</span>}
                 </div>
               </div>
 
@@ -81,7 +168,7 @@ function App() {
                   Repayment
                 </label>
               </div>
-              <div className="calculator__radio-group">
+              <div className="calculator__radio-group calculator__radio-group--last">
                 <label htmlFor="interestOnly">
                   <input
                     type="radio"
@@ -92,8 +179,11 @@ function App() {
                   Interest Only
                 </label>
               </div>
-
-              {errors.mortgageType && <span>This field is required</span>}
+              {errors.mortgageType && (
+                <div className="calculator__err">
+                  Please select a Mortgage Type
+                </div>
+              )}
 
               <button type="submit" className="calculator__submit">
                 <img

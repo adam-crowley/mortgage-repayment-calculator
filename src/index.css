@@ -125,8 +125,15 @@ ul {
   position: relative;
   margin-bottom: 1rem;
 }
+.calculator__inputgroup:has(.calculator__err) input[type=text] {
+  border: solid 1px var(--Red) !important;
+}
+.calculator__inputgroup:has(.calculator__err) span {
+  color: var(--White) !important;
+  background-color: var(--Red) !important;
+}
 
-.calculator input[type=text] {
+.calculator input {
   z-index: 1;
   cursor: pointer;
   color: var(--Slate-900);
@@ -140,24 +147,24 @@ ul {
   border: solid 1px var(--Slate-700);
   transition: border 0.2s;
 }
-.calculator input[type=text]:hover {
+.calculator input:hover {
   border: solid 1px var(--Slate-900);
 }
-.calculator input[type=text]:focus {
+.calculator input:focus {
   border: solid 1px var(--Lime);
   outline: 0;
 }
-.calculator input[type=text]:focus + span {
+.calculator input:focus + span {
   color: var(--Slate-900);
   background-color: var(--Lime);
 }
 
-.calculator__inputgroup--mortgageAmount input[type=text] {
+.calculator__inputgroup--mortgageAmount input {
   padding: 0 0 0 3.75rem;
 }
 
 .calculator__inputgroup--mortgageAmount span {
-  border-radius: 0.25rem;
+  border-radius: 0.25rem 0 0 0.25rem;
   color: var(--Slate-700);
   font-weight: var(--bold);
   background-color: var(--Slate-100);
@@ -176,6 +183,8 @@ ul {
 }
 
 .calculator__inputgroup--mortgageTerm span {
+  transition: color 0.2s, background-color 0.2s;
+  border-radius: 0 0.25rem 0.25rem 0;
   color: var(--Slate-700);
   font-weight: var(--bold);
   background-color: var(--Slate-100);
@@ -194,6 +203,8 @@ ul {
 }
 
 .calculator__inputgroup--interestRate span {
+  transition: color 0.2s, background-color 0.2s;
+  border-radius: 0 0.25rem 0.25rem 0;
   color: var(--Slate-700);
   font-weight: var(--bold);
   background-color: var(--Slate-100);
@@ -237,6 +248,9 @@ ul {
   position: relative;
   margin-bottom: 0.75rem;
 }
+.calculator__radio-group.calculator__radio-group--last {
+  margin-bottom: 0;
+}
 
 .calculator__radio-group input[type=radio] {
   accent-color: var(--Slate-700);
@@ -246,6 +260,7 @@ ul {
 }
 
 .calculator__radio-group label {
+  cursor: pointer;
   font-size: 1.125rem;
   font-weight: var(--bold);
   color: var(--Slate-900);
@@ -256,6 +271,11 @@ ul {
   height: 100%;
   margin: 0;
   border-radius: 0.25rem;
+  transition: border 0.2s, background-color 0.2s;
+}
+.calculator__radio-group label:has(input[type=radio]:hover) {
+  background-color: var(--White);
+  border: solid 1px var(--Lime);
 }
 .calculator__radio-group label:has(input[type=radio]:checked) {
   background-color: rgba(216, 219, 47, 0.15);
@@ -263,6 +283,7 @@ ul {
 }
 
 .calculator__submit {
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 1.125rem;
@@ -275,10 +296,20 @@ ul {
   height: 3.5rem;
   border-radius: 1.75rem;
   border: 0;
+  transition: background-color 0.2s;
+}
+.calculator__submit:hover {
+  background-color: #eced97;
 }
 
 .calculator__submit img {
   margin-right: 0.75rem;
+}
+
+.calculator__err {
+  font-size: 0.875rem;
+  color: var(--Red);
+  margin-top: 0.5rem;
 }
 
 .footer {
