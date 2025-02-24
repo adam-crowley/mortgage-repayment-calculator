@@ -86,9 +86,199 @@ ul {
   margin-bottom: 1.5rem;
 }
 
+.calculator {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--White);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.calculator__head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
+}
+
+.calculator h1 {
+  font-size: 1.5rem;
+}
+
+.calculator__clear-btn {
+  color: var(--Slate-700);
+  font-size: 1rem;
+  text-decoration: underline;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.calculator label,
+.calculator legend {
+  display: inline-block;
+  color: var(--Slate-700);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.calculator__inputgroup {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.calculator input[type=text] {
+  z-index: 1;
+  cursor: pointer;
+  color: var(--Slate-900);
+  font-size: 1.125rem;
+  font-weight: var(--bold);
+  position: relative;
+  background: transparent;
+  width: 100%;
+  height: 3rem;
+  border-radius: 0.25rem;
+  border: solid 1px var(--Slate-700);
+  transition: border 0.2s;
+}
+.calculator input[type=text]:hover {
+  border: solid 1px var(--Slate-900);
+}
+.calculator input[type=text]:focus {
+  border: solid 1px var(--Lime);
+  outline: 0;
+}
+.calculator input[type=text]:focus + span {
+  color: var(--Slate-900);
+  background-color: var(--Lime);
+}
+
+.calculator__inputgroup--mortgageAmount input[type=text] {
+  padding: 0 0 0 3.75rem;
+}
+
+.calculator__inputgroup--mortgageAmount span {
+  border-radius: 0.25rem;
+  color: var(--Slate-700);
+  font-weight: var(--bold);
+  background-color: var(--Slate-100);
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.75rem;
+  height: 3rem;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.calculator__inputgroup--mortgageTerm input[type=text] {
+  padding: 0 6rem 0 1rem;
+}
+
+.calculator__inputgroup--mortgageTerm span {
+  color: var(--Slate-700);
+  font-weight: var(--bold);
+  background-color: var(--Slate-100);
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 5rem;
+  height: 3rem;
+}
+
+.calculator__inputgroup--interestRate input[type=text] {
+  padding: 0 4.188rem 0 1rem;
+}
+
+.calculator__inputgroup--interestRate span {
+  color: var(--Slate-700);
+  font-weight: var(--bold);
+  background-color: var(--Slate-100);
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.188rem;
+  height: 3rem;
+}
+
+.calculator__2-col {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.calculator__col {
+  width: 50%;
+}
+
 .calculator__form {
   display: flex;
   flex-direction: column;
+}
+
+.calculator__calc {
+  width: 50%;
+  padding: 2.5rem;
+}
+
+.calculator__results {
+  width: 50%;
+  background-color: var(--Slate-900);
+  border-radius: 0 0 0 5rem;
+}
+
+.calculator__radio-group {
+  height: 3rem;
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.calculator__radio-group input[type=radio] {
+  accent-color: var(--Slate-700);
+  height: 1.25rem;
+  width: 1.25rem;
+  margin: 0 1rem;
+}
+
+.calculator__radio-group label {
+  font-size: 1.125rem;
+  font-weight: var(--bold);
+  color: var(--Slate-900);
+  border: solid 1px var(--Slate-700);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border-radius: 0.25rem;
+}
+.calculator__radio-group label:has(input[type=radio]:checked) {
+  background-color: rgba(216, 219, 47, 0.15);
+  border: solid 1px var(--Lime);
+}
+
+.calculator__submit {
+  display: flex;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: var(--bold);
+  color: var(--Slate-900);
+  background-color: var(--Lime);
+  width: 19.625rem;
+  padding: 0 0 0 2.5rem;
+  margin-top: 1.75rem;
+  height: 3.5rem;
+  border-radius: 1.75rem;
+  border: 0;
+}
+
+.calculator__submit img {
+  margin-right: 0.75rem;
 }
 
 .footer {

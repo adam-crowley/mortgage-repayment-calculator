@@ -23,53 +23,79 @@ function App() {
       <div className="container">
         <main className="calculator">
           <div className="calculator__calc">
-            <h1>Mortgage Calculator</h1> <button>Clear All</button>
+            <div className="calculator__head">
+              <h1>Mortgage Calculator</h1>{' '}
+              <button className="calculator__clear-btn">Clear All</button>
+            </div>
+
             <form
               className="calculator__form"
               onSubmit={handleSubmit(onSubmit)}
             >
               <label htmlFor="mortgageAmount">Mortgage Amount</label>
-              <input
-                type="text"
-                id="mortgageAmount"
-                {...register('mortgageAmount', { required: true })}
-              />
-              <span>£</span>
+              <div className="calculator__inputgroup calculator__inputgroup--mortgageAmount">
+                <input
+                  type="text"
+                  id="mortgageAmount"
+                  {...register('mortgageAmount', { required: true })}
+                />
+                <span>£</span>
+              </div>
               {errors.mortgageAmount && <span>This field is required</span>}
-              <label htmlFor="mortgageTerm">Mortgage Term</label>
-              <input
-                type="text"
-                id="mortgageTerm"
-                {...register('mortgageTerm', { required: true })}
-              />
-              {errors.mortgageTerm && <span>This field is required</span>}
-              <span>years</span>
-              <label htmlFor="interestRate">Interest Rate</label>
-              <input
-                type="text"
-                id="interestRate"
-                {...register('interestRate', { required: true })}
-              />
-              {errors.interestRate && <span>This field is required</span>}
-              <span>%</span>
+              <div className="calculator__2-col">
+                <div className="calculator__col">
+                  <label htmlFor="mortgageTerm">Mortgage Term</label>
+                  <div className="calculator__inputgroup calculator__inputgroup--mortgageTerm">
+                    <span>years</span>
+                    <input
+                      type="text"
+                      id="mortgageTerm"
+                      {...register('mortgageTerm', { required: true })}
+                    />
+                  </div>
+                  {errors.mortgageTerm && <span>This field is required</span>}
+                </div>
+                <div className="calculator__col">
+                  <label htmlFor="interestRate">Interest Rate</label>
+                  <div className="calculator__inputgroup calculator__inputgroup--interestRate">
+                    <span>%</span>
+                    <input
+                      type="text"
+                      id="interestRate"
+                      {...register('interestRate', { required: true })}
+                    />
+                  </div>
+                  {errors.interestRate && <span>This field is required</span>}
+                </div>
+              </div>
+
               <legend>Mortgage Type</legend>
-              <label htmlFor="repayment">Repayment</label>
-              <input
-                type="radio"
-                id="repayment"
-                value="repayment"
-                {...register('mortgageType', { required: true })}
-              />
-              <label htmlFor="interestOnly">Interest Only</label>
-              <input
-                type="radio"
-                id="interestOnly"
-                value="interestOnly"
-                {...register('mortgageType', { required: true })}
-              />
+              <div className="calculator__radio-group">
+                <label htmlFor="repayment">
+                  <input
+                    type="radio"
+                    id="repayment"
+                    value="repayment"
+                    {...register('mortgageType', { required: true })}
+                  />
+                  Repayment
+                </label>
+              </div>
+              <div className="calculator__radio-group">
+                <label htmlFor="interestOnly">
+                  <input
+                    type="radio"
+                    id="interestOnly"
+                    value="interestOnly"
+                    {...register('mortgageType', { required: true })}
+                  />
+                  Interest Only
+                </label>
+              </div>
+
               {errors.mortgageType && <span>This field is required</span>}
 
-              <button type="submit">
+              <button type="submit" className="calculator__submit">
                 <img
                   src="/assets/images/icon-calculator.svg"
                   alt="Calculate Repayments icon"
@@ -90,7 +116,7 @@ function App() {
                 your monthly repayments would be.
               </p>
             </div>
-            <div className="calculator__your-results">
+            {/* <div className="calculator__your-results">
               <p>Your results</p>
               <p>
                 Your results are shown below based on the information you
@@ -101,7 +127,7 @@ function App() {
                 <p>Your monthly repayments</p>
                 <p>Total you'll repay over the term</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>
