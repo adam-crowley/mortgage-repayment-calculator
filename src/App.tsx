@@ -41,9 +41,14 @@ function App() {
               <div className="calculator__inputgroup calculator__inputgroup--mortgageAmount">
                 <input
                   type="text"
+                  inputMode="decimal"
                   id="mortgageAmount"
                   {...register('mortgageAmount', {
                     required: 'This field is required',
+                    pattern: {
+                      value: /^[0-9]*\.?[0-9]*$/,
+                      message: 'Please enter numbers only',
+                    },
                     validate: {
                       isNumber: (value) =>
                         validateNumber(value) || 'Please enter a valid number',
@@ -72,9 +77,14 @@ function App() {
                   <div className="calculator__inputgroup calculator__inputgroup--mortgageTerm">
                     <input
                       type="text"
+                      inputMode="numeric"
                       id="mortgageTerm"
                       {...register('mortgageTerm', {
                         required: 'This field is required',
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: 'Please enter whole numbers only',
+                        },
                         validate: {
                           isNumber: (value) =>
                             validateNumber(value) ||
@@ -116,9 +126,14 @@ function App() {
                   <div className="calculator__inputgroup calculator__inputgroup--interestRate">
                     <input
                       type="text"
+                      inputMode="decimal"
                       id="interestRate"
                       {...register('interestRate', {
                         required: 'This field is required',
+                        pattern: {
+                          value: /^[0-9]*\.?[0-9]*$/,
+                          message: 'Please enter numbers only',
+                        },
                         validate: {
                           isNumber: (value) =>
                             validateNumber(value) ||
