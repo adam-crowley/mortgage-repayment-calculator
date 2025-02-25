@@ -210,7 +210,7 @@ function App() {
             </form>
           </div>
           <div className="calculator__results">
-            {/* <div className="calculator__empty">
+            <div className="calculator__empty">
               <img
                 src="/public/assets/images/illustration-empty.svg"
                 alt="Results Shown Here illustration"
@@ -220,8 +220,8 @@ function App() {
                 Complete the form and click “calculate repayments” to see what
                 your monthly repayments would be.
               </p>
-            </div> */}
-            <div className="calculator__your-results">
+            </div>
+            {/* <div className="calculator__your-results">
               <h2>Your results</h2>
               <p>
                 Your results are shown below based on the information you
@@ -235,7 +235,7 @@ function App() {
                 <p>Total you'll repay over the term</p>
                 <p className="calculator__total">£539,322.94</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </main>
       </div>
