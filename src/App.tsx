@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Footer from './components/Footer'
+import { useState } from 'react'
 
 type Inputs = {
   mortgageAmount: string | number
@@ -9,20 +10,46 @@ type Inputs = {
 }
 
 function App() {
+  const [submittedData, setSubmittedData] = useState()
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+
+  const calculateRepayments = (data) => {
+    const { mortgageAmount, mortgageTerm, interestRate, mortgageType } = data
+    const repayments = { monthlyPayment: null, totalPayment: null }
+    const monthlyInterestRate = interestRate / 100 / 12
+    const numberOfPayments = mortgageTerm * 12
+    repayments.monthlyPayment =
+      (mortgageAmount *
+        (monthlyInterestRate *
+          Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
+      (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1)
+    repayments.totalPayment = repayments.monthlyPayment * mortgageTerm * 12
+    if (mortgageType === 'repayment') {
+      return repayments
+    } else if (mortgageType === 'interestOnly') {
+      return repayments * monthlyInterestRate
+    }
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const monthlyRepayments = calculateRepayments(data)
+    console.log('monthlyRepayments', monthlyRepayments)
+    setSubmittedData(monthlyRepayments)
+  }
 
   const validateNumber = (value: string | number) => {
     const num = typeof value === 'string' ? parseFloat(value) : value
     return !isNaN(num) && isFinite(num)
   }
 
-  console.log(watch('mortgageAmount')) // watch input value by passing the name of it
+  console.log(watch('mortgageAmount'))
+
   return (
     <>
       <div className="container">
@@ -210,32 +237,39 @@ function App() {
             </form>
           </div>
           <div className="calculator__results">
-            <div className="calculator__empty">
-              <img
-                src="/public/assets/images/illustration-empty.svg"
-                alt="Results Shown Here illustration"
-              />
-              <h2>Results shown here</h2>
-              <p>
-                Complete the form and click “calculate repayments” to see what
-                your monthly repayments would be.
-              </p>
-            </div>
-            {/* <div className="calculator__your-results">
-              <h2>Your results</h2>
-              <p>
-                Your results are shown below based on the information you
-                provided. To adjust the results, edit the form and click
-                “calculate repayments” again.
-              </p>
-              <div className="calculator__results-container">
-                <p>Your monthly repayments</p>
-                <p className="calculator__repayments">£1,797.74</p>
-                <hr />
-                <p>Total you'll repay over the term</p>
-                <p className="calculator__total">£539,322.94</p>
+            {submittedData ? (
+              <div className="calculator__your-results">
+                <h2>Your results</h2>
+                <p>
+                  Your results are shown below based on the information you
+                  provided. To adjust the results, edit the form and click
+                  “calculate repayments” again.
+                </p>
+                <div className="calculator__results-container">
+                  <p>Your monthly repayments</p>
+                  <p className="calculator__repayments">
+                    £{submittedData.monthlyPayment.toFixed(2)}
+                  </p>
+                  <hr />
+                  <p>Total you'll repay over the term</p>
+                  <p className="calculator__total">
+                    £{submittedData.totalPayment.toFixed(2)}
+                  </p>
+                </div>
               </div>
-            </div> */}
+            ) : (
+              <div className="calculator__empty">
+                <img
+                  src="/public/assets/images/illustration-empty.svg"
+                  alt="Results Shown Here illustration"
+                />
+                <h2>Results shown here</h2>
+                <p>
+                  Complete the form and click “calculate repayments” to see what
+                  your monthly repayments would be.
+                </p>
+              </div>
+            )}
           </div>
         </main>
       </div>
