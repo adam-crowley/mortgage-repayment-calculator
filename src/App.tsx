@@ -9,8 +9,14 @@ type Inputs = {
   mortgageType: 'repayment' | 'interestOnly'
 }
 
+interface MortgageCalculationResult {
+  monthlyPayment: number
+  totalPayment: number
+}
+
 function App() {
-  const [submittedData, setSubmittedData] = useState()
+  const [submittedData, setSubmittedData] =
+    useState<MortgageCalculationResult>()
 
   const {
     register,
@@ -19,28 +25,30 @@ function App() {
     formState: { errors },
   } = useForm<Inputs>()
 
-  const calculateRepayments = (data) => {
+  const calculateRepayments = (data: Inputs) => {
     const { mortgageAmount, mortgageTerm, interestRate, mortgageType } = data
-    const repayments = { monthlyPayment: null, totalPayment: null }
-    const monthlyInterestRate = interestRate / 100 / 12
-    const numberOfPayments = mortgageTerm * 12
-    repayments.monthlyPayment =
-      (mortgageAmount *
-        (monthlyInterestRate *
-          Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
-      (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1)
-    repayments.totalPayment = repayments.monthlyPayment * mortgageTerm * 12
+    const monthlyInterestRate = +interestRate / 100 / 12
+    const numberOfPayments = +mortgageTerm * 12
+    let monthlyPayment: number = 0,
+      totalPayment: number = 0
+
     if (mortgageType === 'repayment') {
-      return repayments
+      monthlyPayment =
+        (+mortgageAmount *
+          (monthlyInterestRate *
+            Math.pow(1 + monthlyInterestRate, numberOfPayments))) /
+        (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1)
+      totalPayment = monthlyPayment * numberOfPayments
     } else if (mortgageType === 'interestOnly') {
-      return repayments * monthlyInterestRate
+      monthlyPayment = +mortgageAmount * monthlyInterestRate
+      totalPayment = monthlyPayment * numberOfPayments + +mortgageAmount
     }
+
+    return { monthlyPayment, totalPayment }
   }
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const monthlyRepayments = calculateRepayments(data)
-    console.log('monthlyRepayments', monthlyRepayments)
-    setSubmittedData(monthlyRepayments)
+    setSubmittedData(calculateRepayments(data))
   }
 
   const validateNumber = (value: string | number) => {
