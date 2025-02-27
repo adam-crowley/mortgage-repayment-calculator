@@ -1,6 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import Footer from './components/Footer'
 import { useState } from 'react'
+import { NumericFormat } from 'react-number-format'
 
 type Inputs = {
   mortgageAmount: string | number
@@ -22,6 +23,7 @@ function App() {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>()
 
@@ -56,6 +58,13 @@ function App() {
     return !isNaN(num) && isFinite(num)
   }
 
+  const formatCurrency = (amount: number): string => {
+    return amount.toLocaleString('en-GB', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })
+  }
+
   console.log(watch('mortgageAmount'))
 
   return (
@@ -74,10 +83,15 @@ function App() {
             >
               <label htmlFor="mortgageAmount">Mortgage Amount</label>
               <div className="calculator__inputgroup calculator__inputgroup--mortgageAmount">
-                <input
-                  type="text"
-                  inputMode="decimal"
+                <NumericFormat
+                  thousandSeparator={true}
+                  decimalScale={2}
+                  fixedDecimalScale={false}
                   id="mortgageAmount"
+                  onValueChange={(values) => {
+                    const { value } = values
+                    setValue('mortgageAmount', value)
+                  }}
                   {...register('mortgageAmount', {
                     required: 'This field is required',
                     pattern: {
@@ -256,12 +270,12 @@ function App() {
                 <div className="calculator__results-container">
                   <p>Your monthly repayments</p>
                   <p className="calculator__repayments">
-                    £{submittedData.monthlyPayment.toFixed(2)}
+                    £{formatCurrency(submittedData.monthlyPayment)}
                   </p>
                   <hr />
                   <p>Total you'll repay over the term</p>
                   <p className="calculator__total">
-                    £{submittedData.totalPayment.toFixed(2)}
+                    £{formatCurrency(submittedData.totalPayment)}
                   </p>
                 </div>
               </div>
