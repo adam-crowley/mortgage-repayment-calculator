@@ -2,18 +2,9 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import Footer from './components/Footer'
 import { useState } from 'react'
 import { NumericFormat } from 'react-number-format'
-
-type Inputs = {
-  mortgageAmount: string | number
-  mortgageTerm: string | number
-  interestRate: string | number
-  mortgageType: 'repayment' | 'interestOnly'
-}
-
-interface MortgageCalculationResult {
-  monthlyPayment: number
-  totalPayment: number
-}
+import Results from './components/Results'
+import { Inputs, MortgageCalculationResult } from './types/models'
+import { validateNumber } from './helperFunctions/validateNumber'
 
 function App() {
   const [submittedData, setSubmittedData] =
@@ -51,18 +42,6 @@ function App() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setSubmittedData(calculateRepayments(data))
-  }
-
-  const validateNumber = (value: string | number) => {
-    const num = typeof value === 'string' ? parseFloat(value) : value
-    return !isNaN(num) && isFinite(num)
-  }
-
-  const formatCurrency = (amount: number): string => {
-    return amount.toLocaleString('en-GB', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
   }
 
   console.log(watch('mortgageAmount'))
@@ -260,29 +239,11 @@ function App() {
           </div>
           <div className="calculator__results">
             {submittedData ? (
-              <div className="calculator__your-results">
-                <h2>Your results</h2>
-                <p>
-                  Your results are shown below based on the information you
-                  provided. To adjust the results, edit the form and click
-                  “calculate repayments” again.
-                </p>
-                <div className="calculator__results-container">
-                  <p>Your monthly repayments</p>
-                  <p className="calculator__repayments">
-                    £{formatCurrency(submittedData.monthlyPayment)}
-                  </p>
-                  <hr />
-                  <p>Total you'll repay over the term</p>
-                  <p className="calculator__total">
-                    £{formatCurrency(submittedData.totalPayment)}
-                  </p>
-                </div>
-              </div>
+              <Results {...submittedData} />
             ) : (
               <div className="calculator__empty">
                 <img
-                  src="/public/assets/images/illustration-empty.svg"
+                  src="/assets/images/illustration-empty.svg"
                   alt="Results Shown Here illustration"
                 />
                 <h2>Results shown here</h2>
