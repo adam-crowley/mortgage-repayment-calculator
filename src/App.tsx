@@ -10,14 +10,25 @@ import Empty from './components/Empty'
 function App() {
   const [submittedData, setSubmittedData] =
     useState<MortgageCalculationResult>()
+  const [mortgageValue, setMortgageValue] = useState('')
 
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<Inputs>()
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    setSubmittedData(calculateRepayments(data))
+  }
+
+  const resetForm = () => {
+    reset()
+    setSubmittedData(undefined)
+    setMortgageValue('')
+  }
 
   const calculateRepayments = (data: Inputs) => {
     const { mortgageAmount, mortgageTerm, interestRate, mortgageType } = data
@@ -41,12 +52,6 @@ function App() {
     return { monthlyPayment, totalPayment }
   }
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setSubmittedData(calculateRepayments(data))
-  }
-
-  console.log(watch('mortgageAmount'))
-
   return (
     <>
       <div className="container">
@@ -54,7 +59,12 @@ function App() {
           <div className="calculator__calc">
             <div className="calculator__head">
               <h1>Mortgage Calculator</h1>{' '}
-              <button className="calculator__clear-btn">Clear All</button>
+              <button
+                onClick={() => resetForm()}
+                className="calculator__clear-btn"
+              >
+                Clear All
+              </button>
             </div>
 
             <form
@@ -64,13 +74,15 @@ function App() {
               <label htmlFor="mortgageAmount">Mortgage Amount</label>
               <div className="calculator__inputgroup calculator__inputgroup--mortgageAmount">
                 <NumericFormat
+                  value={mortgageValue}
                   thousandSeparator={true}
                   decimalScale={2}
                   fixedDecimalScale={false}
                   id="mortgageAmount"
                   onValueChange={(values) => {
-                    const { value } = values
+                    const { value, formattedValue } = values
                     setValue('mortgageAmount', value)
+                    setMortgageValue(formattedValue)
                   }}
                   {...register('mortgageAmount', {
                     required: 'This field is required',
