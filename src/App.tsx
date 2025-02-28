@@ -5,6 +5,7 @@ import { NumericFormat } from 'react-number-format'
 import Results from './components/Results'
 import { Inputs, MortgageCalculationResult } from './types/models'
 import { validateNumber } from './helperFunctions/validateNumber'
+import Empty from './components/Empty'
 
 function App() {
   const [submittedData, setSubmittedData] =
@@ -238,21 +239,7 @@ function App() {
             </form>
           </div>
           <div className="calculator__results">
-            {submittedData ? (
-              <Results {...submittedData} />
-            ) : (
-              <div className="calculator__empty">
-                <img
-                  src="/assets/images/illustration-empty.svg"
-                  alt="Results Shown Here illustration"
-                />
-                <h2>Results shown here</h2>
-                <p>
-                  Complete the form and click “calculate repayments” to see what
-                  your monthly repayments would be.
-                </p>
-              </div>
-            )}
+            {submittedData ? <Results {...submittedData} /> : <Empty />}
           </div>
         </main>
       </div>
