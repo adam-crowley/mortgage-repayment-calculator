@@ -212,7 +212,7 @@ function App() {
                 </div>
               </div>
 
-              <legend>Mortgage Type</legend>
+              <div className="calculator__legend">Mortgage Type</div>
               <div className="calculator__radio-group">
                 <label htmlFor="repayment">
                   <input
